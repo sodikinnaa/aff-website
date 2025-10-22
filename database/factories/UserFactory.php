@@ -25,9 +25,12 @@ class UserFactory extends Factory
     {
         // Removed 'email_verified_at' to avoid error from missing column.
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
+            'name' => $this->faker->name(),
+            'username' => $this->faker->unique()->userName(), // ← tambahkan ini
+            'email' => $this->faker->unique()->safeEmail(),
+            'whatsapp' => $this->faker->numerify('628##########'), // optional kalau field-nya ada
+            'password' => Hash::make('password'), // default
+            'role' => 'user', // default role
             'remember_token' => Str::random(10),
         ];
     }

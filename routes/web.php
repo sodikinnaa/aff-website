@@ -2,16 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Settings\WesiteController;
+use App\Http\Controllers\Auth\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/login', function(){
-    return view('auth/login');
-});
-Route::post('/login', function(){
-    return request()->all();
-})->name('login.submit');
+
+// auth start to code 
+Route::get('/login', [AuthController::class, 'showLogin']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::get('/register', function(){
     return view('auth/register');
 });
@@ -22,6 +21,8 @@ Route::post('/register', function(){
 Route::get('/logout', function(){
     return redirect()->back();
 })->name('logout');
+// end auth code 
+
 // admin dashboard 
 // Admin dashboard routes
 Route::prefix('admin')->group(function () {
@@ -97,5 +98,18 @@ Route::prefix('user')->group(function () {
     Route::get('/rewards', function() {
         return 'User Rewards';
     })->name('user.rewards');
+});
+
+// mitra dashboard 
+Route::prefix('mitra')->group(function (){
+    Route::get('/dashboard', function() {
+        return 'User Dashboard';
+    })->name('mitra.dashboard');
+    Route::get('/profile', function() {
+        return 'User Profile';
+    })->name('mitra.profile');
+    Route::get('/rewards', function() {
+        return 'User Rewards';
+    })->name('mitra.rewards');
 });
 
