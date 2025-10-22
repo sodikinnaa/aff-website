@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Settings\WesiteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,16 @@ Route::get('/logout', function(){
 // admin dashboard 
 // Admin dashboard routes
 Route::prefix('admin')->group(function () {
+    // start create logick 
+    Route::prefix('setting')->group(function(){
+        Route::get('/website', [WesiteController::class, 'index'])->name('admin.website');
+        Route::get('/website/add', function(){
+            return view('admin.website.form', ['title'=>'Tambah website', 'websites'=>[]]);
+        })->name('admin.website.store');
+    });
+
+    // end settings route
+
     Route::get('/dashboard', function() {
         return view('admin.index', ['title' => 'Dashboard Admin']);
     })->name('admin.dashboard');
@@ -72,14 +83,7 @@ Route::prefix('admin')->group(function () {
         return 'Admin Reports';
     })->name('admin.reports');
 
-    Route::prefix('setting')->group(function(){
-        Route::get('/website', function(){
-            return view('admin.website.index', ['title'=>'Daftar website', 'websites'=>[]]);
-        })->name('admin.website');
-        Route::get('/website/add', function(){
-            return view('admin.website.form', ['title'=>'Tambah website', 'websites'=>[]]);
-        })->name('admin.website.store');
-    });
+    
 });
 
 // User dashboard routes
