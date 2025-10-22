@@ -136,7 +136,7 @@
                     Daftar User
                     </a>
 
-                    <a class="dropdown-item {{ request()->is('admin/roles') ? 'active' : '' }}" href="/admin/roles">
+                    <a class="dropdown-item {{ request()->is('admin/roles') ? 'active' : '' }}" href="{{ env('APP_URL') }}/admin/users/roles">
                     <span class="me-2">
                         <!-- Shield Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -159,72 +159,18 @@
                     <span class="nav-link-title">Produk & Lisensi</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item {{ request()->is('admin/products') ? 'active' : '' }}" href="/admin/products">
+                    <a class="dropdown-item {{ request()->is('admin/products/siapberkarir*') ? 'active' : '' }}" href="{{ route('admin.products.detail', ['slug_produk' => 'siap-berkarir']) }}">
                     <span class="me-2">
                         <!-- Book Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 7H20"/><path d="M20 22V2"/><path d="M4 22V2"/></svg>
                     </span>
-                    Produk
+                    Siap Berkarir
                     </a>
-                    <a class="dropdown-item {{ request()->is('admin/mayar/payment') ? 'active' : '' }}" href="/admin/mayar/payment">
-                    <span class="me-2">
-                        <!-- Wallet Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="7" width="20" height="14" rx="2"/>
-                        <path d="M16 3v4"/>
-                        <path d="M8 3v4"/>
-                        <path d="M2 11h20"/>
-                        <circle cx="16" cy="13" r="2"/>
-                        </svg>
-                    </span>
-                    Mayar Payment
-                    </a>
-                    <a class="dropdown-item {{ request()->is('admin/payments/monitoring') ? 'active' : '' }}" href="/admin/payments/monitoring">
-                    <span class="me-2">
-                        <!-- Credit Card Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-                    </span>
-                    New Payment
-                    </a>
+                    
                 </div>
                 </li>
 
-                <!-- Learning Progress -->
-                @php
-                $learningProgressActive = request()->is('admin/progress*') || request()->is('admin/exams*') || request()->is('admin/certificates*');
-                @endphp
-                <li class="nav-item dropdown {{ $learningProgressActive ? 'active' : '' }}">
-                <a class="nav-link dropdown-toggle {{ $learningProgressActive ? 'active' : '' }}" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="{{ $learningProgressActive ? 'true' : 'false' }}">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <!-- Progress Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                    </span>
-                    <span class="nav-link-title">Learning Progress</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item {{ request()->is('admin/progress') ? 'active' : '' }}" href="/admin/progress">
-                    <span class="me-2">
-                        <!-- Bar Chart Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
-                    </span>
-                    Progres User
-                    </a>
-                    <a class="dropdown-item {{ request()->is('admin/exams') ? 'active' : '' }}" href="/admin/exams">
-                    <span class="me-2">
-                        <!-- Clipboard Check Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-4"/><path d="M9 14l2 2l4-4"/></svg>
-                    </span>
-                    Ujian
-                    </a>
-                    <a class="dropdown-item {{ request()->is('admin/certificates') ? 'active' : '' }}" href="/admin/certificates">
-                    <span class="me-2">
-                        <!-- Certificate Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89l-1.42 4.25a1 1 0 0 0 1.45 1.12l3.76-2.2l3.76 2.2a1 1 0 0 0 1.45-1.12l-1.42-4.25"/></svg>
-                    </span>
-                    Sertifikat
-                    </a>
-                </div>
-                </li>
+                
 
                 <!-- System & Settings -->
                 @php
