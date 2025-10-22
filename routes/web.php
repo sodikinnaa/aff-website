@@ -74,8 +74,11 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('setting')->group(function(){
         Route::get('/website', function(){
-            return 'daftar website';
+            return view('admin.website.index', ['title'=>'Daftar website', 'websites'=>[]]);
         })->name('admin.website');
+        Route::get('/website/add', function(){
+            return view('admin.website.form', ['title'=>'Tambah website', 'websites'=>[]]);
+        })->name('admin.website.store');
     });
 });
 
