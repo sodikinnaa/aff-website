@@ -55,7 +55,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/form', function() {
                 return view('admin.user.admin.form', ['title' => 'Tambah User', 'users'=>[]]);
             })->name('roles.form');
-        });        
+        });   
+
     });
     // product route 
     Route::prefix('products')->group(function(){
@@ -64,12 +65,18 @@ Route::prefix('admin')->group(function () {
         })->name('admin.products');
         Route::get('/{slug_produk}', function($slug_produk){
             // disini slug_produk sudah bisa digunakan jika ingin detail produk
-            return "Product Detail: " . $slug_produk;
+            return view('admin.products.detail', ['title'=>'Detail Product', 'userCourses'=>[]]);
         })->name('admin.products.detail');
     });
     Route::get('/reports', function() {
         return 'Admin Reports';
     })->name('admin.reports');
+
+    Route::prefix('setting')->group(function(){
+        Route::get('/website', function(){
+            return 'daftar website';
+        })->name('admin.website');
+    });
 });
 
 // User dashboard routes

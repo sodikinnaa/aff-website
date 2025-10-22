@@ -177,45 +177,50 @@
                 $systemSettingsActive = request()->is('admin/webhooks*') || request()->is('admin/system/cache');
                 @endphp
                 <li class="nav-item dropdown {{ $systemSettingsActive ? 'active' : '' }}">
-                <a class="nav-link dropdown-toggle {{ $systemSettingsActive ? 'active' : '' }}" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="{{ $systemSettingsActive ? 'true' : 'false' }}">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <!-- Settings Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    </span>
-                    <span class="nav-link-title">System & Settings</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item {{ request()->is('admin/webhooks') && !request()->is('admin/webhooks/targets*') ? 'active' : '' }}" href="/admin/webhooks">
-                    <span class="me-2">
-                        <!-- Webhook Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.67 17.66A8 8 0 1 1 21 12"/><path d="M12 8v4l3 3"/></svg>
-                    </span>
-                    Log Webhook
+                    <a class="nav-link dropdown-toggle {{ $systemSettingsActive ? 'active' : '' }}" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="{{ $systemSettingsActive ? 'true' : 'false' }}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <!-- Settings Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        </span>
+                        <span class="nav-link-title">System & Settings</span>
                     </a>
-                    <a class="dropdown-item {{ request()->is('admin/webhooks/targets*') ? 'active' : '' }}" href="/admin/webhooks/targets/show">
-                    <span class="me-2">
-                        <!-- Target Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
-                        </svg>
-                    </span>
-                    Target Webhook
-                    </a>
-                    <a class="dropdown-item {{ request()->is('admin/system/cache') ? 'active' : '' }}" href="/admin/system/cache">
-                    <span class="me-2">
-                        <!-- Refresh/Caching Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/></svg>
-                    </span>
-                    Caching & Optimisasi
-                    </a>
-                    <a class="dropdown-item {{ request()->is('admin/settings') ? 'active' : '' }}" href="/admin/settings">
-                    <span class="me-2">
-                        <!-- Settings/Sliders Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-                    </span>
-                    Pengaturan Sistem
-                    </a>
-                </div>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item {{ request()->is('admin/setting/website') ? 'active' : '' }}" href="{{ route('admin.website') }}">
+                        <span class="me-2">
+                            <!-- Globe/Website Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 0 20"/>
+                                <path d="M12 2a15.3 15.3 0 0 0 0 20"/>
+                            </svg>
+                        </span>
+                        Daftar Website
+                        </a>
+                        <a class="dropdown-item {{ request()->is('admin/webhooks/targets*') ? 'active' : '' }}" href="/admin/webhooks/targets/show">
+                        <span class="me-2">
+                            <!-- Target Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                            </svg>
+                        </span>
+                        Target Webhook
+                        </a>
+                        <a class="dropdown-item {{ request()->is('admin/system/cache') ? 'active' : '' }}" href="/admin/system/cache">
+                        <span class="me-2">
+                            <!-- Refresh/Caching Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/></svg>
+                        </span>
+                        Caching & Optimisasi
+                        </a>
+                        <a class="dropdown-item {{ request()->is('admin/settings') ? 'active' : '' }}" href="/admin/settings">
+                        <span class="me-2">
+                            <!-- Settings/Sliders Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                        </span>
+                        Pengaturan Sistem
+                        </a>
+                    </div>
                 </li>
 
             </ul>
