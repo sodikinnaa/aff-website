@@ -44,13 +44,13 @@ class LoginTest extends TestCase
     public function it_login_with_affiliator_role_and_redirect_to_user_dashboard()
     {
         $user = User::factory()->create([
-            'email' => 'sodikin@example.com',
+            'email' => 'userfirst@example.com',
             'password' => Hash::make('password123'),
             'role' => 'affiliator'
         ]);
 
         $response = $this->post('/login', [
-            'username' => 'sodikin@example.com',
+            'username' => 'userfirst@example.com',
             'password' => 'password123',
         ]);
 
@@ -62,13 +62,13 @@ class LoginTest extends TestCase
     public function it_login_with_mitra_role_and_redirect_to_mitra_dashboard()
     {
         $user = User::factory()->create([
-            'email' => 'sodikin@example.com',
+            'email' => 'userfirst@example.com',
             'password' => Hash::make('password123'),
             'role' => 'mitra'
         ]);
 
         $response = $this->post('/login', [
-            'username' => 'sodikin@example.com',
+            'username' => 'userfirst@example.com',
             'password' => 'password123',
         ]);
 
@@ -80,13 +80,13 @@ class LoginTest extends TestCase
     public function it_login_with_admin_role_and_redirect_to_admin_dashboard()
     {
         $user = User::factory()->create([
-            'email' => 'sodikin@example.com',
+            'email' => 'userfirst@example.com',
             'password' => Hash::make('password123'),
             'role' => 'admin'
         ]);
 
         $response = $this->post('/login', [
-            'username' => 'sodikin@example.com',
+            'username' => 'userfirst@example.com',
             'password' => 'password123',
         ]);
 
@@ -98,13 +98,13 @@ class LoginTest extends TestCase
     public function it_can_login_with_email_and_redirect_to_admin_dashboard()
     {
         $user = User::factory()->create([
-            'email' => 'sodikin@example.com',
+            'email' => 'userfirst@example.com',
             'password' => Hash::make('password123'),
             'role' => 'admin'
         ]);
 
         $response = $this->post('/login', [
-            'username' => 'sodikin@example.com',
+            'username' => 'userfirst@example.com',
             'password' => 'password123',
         ]);
 
@@ -116,13 +116,13 @@ class LoginTest extends TestCase
     public function it_can_login_with_username_and_redirect_to_admin_dashboard()
     {
         $user = User::factory()->create([
-            'username' => 'sodikinnnaa',
+            'username' => 'userfirstnnaa',
             'password' => Hash::make('password123'),
             'role' => 'admin'
         ]);
 
         $response = $this->post('/login', [
-            'username' => 'sodikinnnaa',
+            'username' => 'userfirstnnaa',
             'password' => 'password123',
         ]);
 
