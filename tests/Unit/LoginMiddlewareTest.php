@@ -3,42 +3,72 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Middleware\Auth\LoginCheck;
 use App\Models\User;
+
 class LoginMiddlewareTest extends TestCase
 {
-    #[Test]
-    public function test_redirect_admin_to_login_if_not_logged_in()
+    use RefreshDatabase;
+
+    /** @test */
+    public function it_allows_guest_to_access_when_not_authenticated()
     {
-        $request = Request::create('/dashboard', 'GET');
+        $request = Request::create('/login', 'GET');
         $middleware = new LoginCheck;
 
         $response = $middleware->handle($request, function () {
-            return response('Next');
+            return response('OK', 200);
         });
 
-        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('OK', $response->getContent());
     }
 
-    #[Test]
-    public function test_admin_passes_if_logged_in()
+    /** @test */
+    public function it_redirects_admin_to_admin_dashboard_when_authenticated()
     {
-        // Create a dummy user without actually persisting to the database to avoid "no such table" SQL error
-        $user = User::factory()->make();
-
-        // Simulate logged in user
+        $user = User::factory()->create(['role' => 'admin']);
         $this->be($user);
 
-        $request = Request::create('/dashboard', 'GET');
+        $request = Request::create('/login', 'GET');
         $middleware = new LoginCheck;
 
-        $response = $middleware->handle($request, function () {
-            return response('Next');
-        });
+        $response = $middleware->handle($request, fn () => response('OK', 200));
 
-        $this->assertEquals('Next', $response->getContent());
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals(url('/admin/dashboard'), $response->headers->get('Location'));
+    }
+
+    /** @test */
+    public function it_redirects_mitra_to_mitra_dashboard_when_authenticated()
+    {
+        $user = User::factory()->create(['role' => 'mitra']);
+        $this->be($user);
+
+        $request = Request::create('/login', 'GET');
+        $middleware = new LoginCheck;
+
+        $response = $middleware->handle($request, fn () => response('OK', 200));
+
+        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals(url('/mitra/dashboard'), $response->headers->get('Location'));
+    }
+
+    /** @test */
+    public function it_redirects_affiliator_or_other_user_to_user_dashboard_when_authenticated()
+    {
+        $user = User::factory()->create(['role' => 'affiliator']);
+        $this->be($user);
+
+        $request = Request::create('/login', 'GET');
+        $middleware = new LoginCheck;
+
+        $response = $middleware->handle($request, fn () => response('OK', 200));
+
+        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals(url('/user/dashboard'), $response->headers->get('Location'));
     }
 }
