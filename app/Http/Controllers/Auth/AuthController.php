@@ -49,4 +49,10 @@ class AuthController extends Controller
             ])->withInput();
         }
     }
+    
+    public function logout()
+    {
+        auth()->logout();
+        return redirect()->route('login')->with('success', 'Anda berhasil logout.');
+    }
 }

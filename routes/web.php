@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 // auth start to code 
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::get('/register', function(){
     return view('auth/register');
@@ -18,14 +18,12 @@ Route::post('/register', function(){
     return view('auth/register');
 })->name('register.submit');
 
-Route::get('/logout', function(){
-    return redirect()->back();
-})->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // end auth code 
 
 // admin dashboard 
 // Admin dashboard routes
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:admin')->group(function () {
     // start create logick 
     Route::prefix('setting')->group(function(){
         Route::get('/website', [WesiteController::class, 'index'])->name('admin.website');
@@ -88,7 +86,7 @@ Route::prefix('admin')->group(function () {
 });
 
 // User dashboard routes
-Route::prefix('user')->group(function () {
+Route::prefix('user')->middleware('role:affiliator')->group(function () {
     Route::get('/dashboard', function() {
         return 'User Dashboard';
     })->name('user.dashboard');
@@ -101,7 +99,7 @@ Route::prefix('user')->group(function () {
 });
 
 // mitra dashboard 
-Route::prefix('mitra')->group(function (){
+Route::prefix('mitra')->middleware('role:mitra')->group(function (){
     Route::get('/dashboard', function() {
         return 'User Dashboard';
     })->name('mitra.dashboard');
@@ -112,4 +110,3 @@ Route::prefix('mitra')->group(function (){
         return 'User Rewards';
     })->name('mitra.rewards');
 });
-

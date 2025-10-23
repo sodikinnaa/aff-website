@@ -166,6 +166,52 @@ class LoginTest extends TestCase
          $this->assertGuest();
     }
 
+
+    // unit test login rediret to admin and user page 
+    /** @test */
+    public function user_is_redirected_to_role_dashboard_if_access_login_when_authenticated()
+    {
+        // Admin
+        $admin = User::factory()->create([
+            'username' => 'adminuser',
+            'password' => Hash::make('passwordAdm1n'),
+            'role' => 'admin',
+        ]);
+        $this->actingAs($admin);
+
+        $response = $this->get('/login');
+        $response->assertRedirect('/admin/dashboard');
+
+        // Affiliator
+        $affiliator = User::factory()->create([
+            'username' => 'affiluser',
+            'password' => Hash::make('passwordAff1l'),
+            'role' => 'affiliator',
+        ]);
+        $this->be($affiliator);
+
+        $response = $this->get('/login');
+        $response->assertRedirect('/user/dashboard');
+
+        // Mitra
+        $mitra = User::factory()->create([
+            'username' => 'mitrauser',
+            'password' => Hash::make('passwordM1tra'),
+            'role' => 'mitra',
+        ]);
+        $this->be($mitra);
+
+        $response = $this->get('/login');
+        $response->assertRedirect('/mitra/dashboard');
+    }
+
+    /** @test */
+    public function guest_can_access_login_page()
+    {
+        $response = $this->get('/login');
+        $response->assertOk();
+    }
+
     
  
      
