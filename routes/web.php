@@ -29,7 +29,11 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::prefix('setting')->group(function(){
         Route::prefix('website')->group(function() {
             Route::get('/', [WebsiteController::class, 'index'])->name('admin.website');
+            Route::post('/',  [WebsiteController::class, 'store'])->name('website.add');
+            Route::put('/',  [WebsiteController::class, 'update'])->name('website.edit');
+            Route::delete('/{id}',  [WebsiteController::class, 'destroy'])->name('website.delete');
             Route::get('/add', [WebsiteController::class, 'showAdd'])->name('admin.website.store');
+            Route::get('/edit/{id}', [WebsiteController::class, 'showEdit'])->name('admin.website.edit');
         });
     });
 
