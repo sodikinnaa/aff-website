@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Services\AuthService;
 
 class AuthController extends Controller
 {
@@ -21,7 +22,7 @@ class AuthController extends Controller
         ]);
 
         // Gunakan AuthService untuk autentikasi
-        $authService = app(\App\Services\AuthService::class);
+        $authService = app(AuthService::class);
         $result = $authService->attemptLogin($request->input('username'), $request->input('password'));
 
         if ($result['success']) {
