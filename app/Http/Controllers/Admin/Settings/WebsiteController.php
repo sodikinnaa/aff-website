@@ -30,6 +30,11 @@ class WebsiteController extends Controller
         return view('admin.website.form', ['title'=>'Tambah website']);
     }
 
+    public function checkActivation(Request $request)
+    {
+        return 'activasi logic';
+    }
+
     public function showEdit($id){
         $website = WebsiteModel::findOrFail($id);
         return view('admin.website.form', [
@@ -41,10 +46,11 @@ class WebsiteController extends Controller
     public function detail($id)
     {
         $website = WebsiteModel::findOrFail($id);
-
+        $token = $this->websiteService->getToken($id);
         return view('admin.website.detail', [
             'title' => 'Detail Website',
-            'website' => $website
+            'website' => $website,
+            'tokens'=>$token
         ]);
     }
 

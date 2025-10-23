@@ -141,6 +141,8 @@
                                         <th class="w-1">No.</th>
                                         <th>Nama Website</th>
                                         <th>Url Website</th>
+                                        <th>Status</th>
+                                        <th>Aktivasi</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -163,6 +165,43 @@
                                                 </a>
                                             </td>
                                             <td>
+                                                @php
+                                                    $status = strtolower($website->status);
+                                                @endphp
+                                                @if($status === 'active')
+                                                    <span class="status status-green">
+                                                        <span class="status-dot status-dot-animated"></span>
+                                                        Aktif
+                                                    </span>
+                                                @elseif($status === 'inactive')
+                                                    <span class="status status-gray">
+                                                        <span class="status-dot"></span>
+                                                        Tidak Aktif
+                                                    </span>
+                                                @else
+                                                    <span class="status status-yellow">
+                                                        <span class="status-dot"></span>
+                                                        {{ ucfirst($website->status) }}
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <form action="{{ route('admin.website.check_activation', ['id' => $website->id]) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <button 
+                                                        type="submit" 
+                                                        class="btn btn-sm btn-outline-primary d-inline-flex align-items-center"
+                                                        title="Cek Aktivasi"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M5 12l5 5l10 -10" />
+                                                        </svg>
+                                                        Cek Aktivasi
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td>
                                                 <span class="dropdown">
                                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
                                                         Aksi
@@ -181,10 +220,11 @@
                                                     </div>
                                                 </span>
                                             </td>
+                                        
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="text-center text-secondary">Belum ada website.</td>
+                                            <td colspan="5" class="text-center text-secondary">Belum ada website.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

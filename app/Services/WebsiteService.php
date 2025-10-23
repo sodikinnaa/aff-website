@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Admin\WebsiteModel;
+use Illuminate\Support\Facades\DB;
 
 class WebsiteService
 {
@@ -65,7 +66,7 @@ class WebsiteService
     /**
      * Delete a website by its model instance.
      *
-     * @param WebsiteModel $website
+     * @param int $id
      * @return bool|null
      * @throws \Exception
      */
@@ -73,4 +74,25 @@ class WebsiteService
     {
         return WebsiteModel::destroy($id);
     }
+
+    /**
+     * Get the website token from the token_website table.
+     *
+     * @param int $websiteId
+     * @param int|null $userId
+     * @return string|null
+     */
+    public function getToken($websiteId, $userId = null)
+    {
+        $query = DB::table('token_website')->where('website_id', $websiteId);
+
+        if ($userId !== null) {
+            $query->where('user_id', $userId);
+        }
+
+        $tokenRecords = $query->orderByDesc('id')->get();
+
+        return $tokenRecords;
+    }
+    
 }

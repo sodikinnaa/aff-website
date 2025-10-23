@@ -35,6 +35,9 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
             Route::put('/',  [WebsiteController::class, 'update'])->name('website.edit');
             Route::delete('/{id}',  [WebsiteController::class, 'destroy'])->name('website.delete');
             Route::get('/edit/{id}', [WebsiteController::class, 'showEdit'])->name('admin.website.edit');
+
+            // new route for sync to source
+            Route::post('/check-activation', [WebsiteController::class, 'checkActivation'])->name('admin.website.check_activation');
         });
     });
 

@@ -68,23 +68,7 @@
                             <h3 class="card-title mb-0">Daftar Token API</h3>
                         </div>
                         <div class="card-body">
-                            @php
-                                // Dummy tokens (simulasi data, nanti bisa diambil dari relasi model jika sudah ada)
-                                $tokens = [
-                                    [
-                                        'token' => '1234567890abcdef',
-                                        'name' => 'Main Token',
-                                        'created_at' => '2024-05-01 10:22:31',
-                                        'status' => 'active'
-                                    ],
-                                    [
-                                        'token' => 'abcdef1234567890',
-                                        'name' => 'Server To Server',
-                                        'created_at' => '2024-04-20 08:10:55',
-                                        'status' => 'inactive'
-                                    ],
-                                ];
-                            @endphp
+                           
 
                             @if(count($tokens) > 0)
                                 <div class="d-none d-md-block table-responsive">
@@ -92,29 +76,27 @@
                                     <table class="table table-bordered table-striped mb-0">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <th>User ID</th>
+                                                <th>Website ID</th>
                                                 <th>Token</th>
-                                                <th>Nama Token</th>
+                                                <th>Expired At</th>
                                                 <th>Tanggal Dibuat</th>
-                                                <th>Status</th>
+                                                <th>Terakhir Diperbarui</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($tokens as $i => $token)
                                                 <tr>
-                                                    <td>{{ $i + 1 }}</td>
+                                                    <td>{{ $token->user_id }}</td>
+                                                    <td>{{ $token->website_id }}</td>
                                                     <td>
-                                                        <code>{{ $token['token'] }}</code>
+                                                        <code>{{ $token->token }}</code>
                                                     </td>
-                                                    <td>{{ $token['name'] }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($token['created_at'])->format('d M Y H:i') }}</td>
                                                     <td>
-                                                        @if($token['status'] === 'active')
-                                                            <span class="badge bg-success">Aktif</span>
-                                                        @else
-                                                            <span class="badge bg-secondary">Nonaktif</span>
-                                                        @endif
+                                                        {{ $token->expired_at ? \Carbon\Carbon::parse($token->expired_at)->format('d M Y H:i') : '-' }}
                                                     </td>
+                                                    <td>{{ \Carbon\Carbon::parse($token->created_at)->format('d M Y H:i') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($token->updated_at)->format('d M Y H:i') }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -125,19 +107,10 @@
                                     @foreach($tokens as $i => $token)
                                         <div class="card mb-2 border shadow-sm">
                                             <div class="card-body py-2 px-3">
-                                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                                    <small class="text-muted fw-bold">#{{ $i + 1 }}</small>
-                                                    <span>
-                                                        @if($token['status'] === 'active')
-                                                            <span class="badge bg-success">Aktif</span>
-                                                        @else
-                                                            <span class="badge bg-secondary">Nonaktif</span>
-                                                        @endif
-                                                    </span>
-                                                </div>
-                                                <div class="mb-1"><strong>Token:</strong> <code class="d-block overflow-auto" style="word-break: break-all;">{{ $token['token'] }}</code></div>
-                                                <div class="mb-1"><strong>Nama:</strong> {{ $token['name'] }}</div>
-                                                <div><strong>Tanggal Dibuat:</strong> {{ \Carbon\Carbon::parse($token['created_at'])->format('d M Y H:i') }}</div>
+                                             
+                                                <div class="mb-1"><strong>Token:</strong> <code class="d-block overflow-auto" style="word-break: break-all;">{{ $token->token }}</code></div>
+                                                <div class="mb-1">
+                                                <div><strong>Tanggal Dibuat:</strong> {{ \Carbon\Carbon::parse($token->created_at)->format('d M Y H:i') }}</div>
                                             </div>
                                         </div>
                                     @endforeach
