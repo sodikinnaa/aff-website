@@ -38,6 +38,16 @@ class WebsiteController extends Controller
         ]);
     }
 
+    public function detail($id)
+    {
+        $website = WebsiteModel::findOrFail($id);
+
+        return view('admin.website.detail', [
+            'title' => 'Detail Website',
+            'website' => $website
+        ]);
+    }
+
     public function store(Request $request)
     {
         // Validasi input form

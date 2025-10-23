@@ -168,6 +168,7 @@
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-start">
+                                                        <a class="dropdown-item" href="{{ route('admin.website.detail', ['id' => $website->id]) }}">Detail</a>
                                                         <a class="dropdown-item" href="{{ route('admin.website.edit', ['id' => $website->id]) }}">Edit</a>
                                                         <form method="POST" action="{{ route('website.delete', ['id' => $website->id]) }}" class="d-inline">
                                                             @csrf
