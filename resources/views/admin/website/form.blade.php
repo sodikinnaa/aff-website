@@ -107,31 +107,9 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="token" class="form-label">Token</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control @error('token') is-invalid @enderror"
-                                            id="token" 
-                                            name="token"
-                                            value="{{ old('token', $isEdit ? $website->token : '') }}"
-                                            required
-                                        >
-                                        @error('token')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                    
 
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select name="role" id="role" class="form-select @error('role') is-invalid @enderror" required>
-                                            <option value="user" {{ old('role', $isEdit ? ($website->role ?? 'user') : 'user') == 'user' ? 'selected' : '' }}>User</option>
-                                            <option value="admin" {{ old('role', $isEdit ? ($website->role ?? '') : '') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                        </select>
-                                        @error('role')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                    
                                     
                                     <div class="d-flex justify-content-end">
                                         <a href="{{ route('admin.website') }}" class="btn btn-outline-secondary me-2">

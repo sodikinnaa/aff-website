@@ -169,9 +169,9 @@ class LoginTest extends TestCase
 
     // unit test login rediret to admin and user page 
     /** @test */
-    public function user_is_redirected_to_role_dashboard_if_access_login_when_authenticated()
+    /** @test */
+    public function admin_is_redirected_to_admin_dashboard_when_accessing_login_page_authenticated()
     {
-        // Admin
         $admin = User::factory()->create([
             'username' => 'adminuser',
             'password' => Hash::make('passwordAdm1n'),
@@ -179,27 +179,34 @@ class LoginTest extends TestCase
         ]);
         $this->actingAs($admin);
 
-        $response = $this->get('/login');
-        $response->assertRedirect('/admin/dashboard');
+        $response = $this->get('/login', ['HTTP_REFERER' => '/']);
 
-        // Affiliator
+        $response->assertRedirect('/admin/dashboard');
+    }
+
+    /** @test */
+    public function affiliator_is_redirected_to_user_dashboard_when_accessing_login_page_authenticated()
+    {
         $affiliator = User::factory()->create([
             'username' => 'affiluser',
             'password' => Hash::make('passwordAff1l'),
             'role' => 'affiliator',
         ]);
-        $this->be($affiliator);
+        $this->actingAs($affiliator);
 
         $response = $this->get('/login');
         $response->assertRedirect('/user/dashboard');
+    }
 
-        // Mitra
+    /** @test */
+    public function mitra_is_redirected_to_mitra_dashboard_when_accessing_login_page_authenticated()
+    {
         $mitra = User::factory()->create([
             'username' => 'mitrauser',
             'password' => Hash::make('passwordM1tra'),
             'role' => 'mitra',
         ]);
-        $this->be($mitra);
+        $this->actingAs($mitra);
 
         $response = $this->get('/login');
         $response->assertRedirect('/mitra/dashboard');

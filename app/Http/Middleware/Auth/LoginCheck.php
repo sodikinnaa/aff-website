@@ -5,6 +5,7 @@ namespace App\Http\Middleware\Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class LoginCheck
 {
@@ -15,22 +16,15 @@ class LoginCheck
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check()) {
-            return redirect('/login');
-        }
-        
-        // Jika sudah login, redirect ke halaman sesuai role jika berada di /login
-        $user = auth()->user();
-        $roleRouteMap = [
-            'admin' => '/admin/dashboard',
-            'affiliator' => '/user/dashboard',
-            'mitra' => '/mitra/dashboard',
-        ];
-
-        $currentPath = $request->path();
-        // Jika path adalah 'login', redirect ke dashboard sesuai rolenya
-        if ($currentPath === 'login' && isset($roleRouteMap[$user->role])) {
-            return redirect($roleRouteMap[$user->role]);
+        if (Auth::check()) {
+            $role = Auth::user()->role ?? 'user';
+            if ($role === 'admin') {
+                return redirect('/admin/dashboard');
+            }
+            if ($role === 'mitra') {
+                return redirect('/mitra/dashboard');
+            }
+            return redirect('/user/dashboard');
         }
 
         return $next($request);

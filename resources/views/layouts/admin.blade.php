@@ -159,7 +159,7 @@
                     <span class="nav-link-title">Produk & Lisensi</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item {{ request()->is('admin/products/siapberkarir*') ? 'active' : '' }}" href="{{ route('admin.products.detail', ['slug_produk' => 'siap-berkarir']) }}">
+                    <a class="dropdown-item {{ request()->is('admin/products/siapberkarir*') ? 'active' : '' }}" href="{{ route('admin.products.detail', ['id' => 'siap-berkarir']) }}">
                     <span class="me-2">
                         <!-- Book Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 7H20"/><path d="M20 22V2"/><path d="M4 22V2"/></svg>

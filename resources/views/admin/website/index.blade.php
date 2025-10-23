@@ -110,25 +110,26 @@
                                 <div class="text-secondary">
                                     Show
                                     <form method="GET" id="perPageForm" class="d-inline">
-                                        <select name="perPage" class="form-select form-select-sm mx-2 d-inline-block" style="width:auto;display:inline;" onchange="document.getElementById('perPageForm').submit()">
+                                        <select name="per_page" class="form-select form-select-sm mx-2 d-inline-block" style="width:auto;display:inline;" onchange="document.getElementById('perPageForm').submit()">
                                             @php
                                                 $perPageOptions = [5, 10, 20, 50, 100];
-                                                $currentPerPage = request()->query('perPage', 10);
+                                                $currentPerPage = request()->query('per_page', 15);
                                             @endphp
                                             @foreach($perPageOptions as $option)
                                                 <option value="{{ $option }}" {{ $currentPerPage == $option ? 'selected' : '' }}>{{ $option }}</option>
                                             @endforeach
                                         </select>
                                         entries
-                                        @foreach(request()->except('perPage', 'page') as $key => $value)
+                                        @foreach(request()->except('per_page', 'page') as $key => $value)
                                             <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                                         @endforeach
                                     </form>
                                 </div>
+                                <!-- Search form is not implemented, placeholder only -->
                                 <div class="ms-auto text-secondary">
                                     Search:
                                     <div class="ms-2 d-inline-block">
-                                        <input type="text" class="form-control form-control-sm" aria-label="Search user" />
+                                        <input type="text" class="form-control form-control-sm" aria-label="Cari website" disabled style="background:#f8f9fa;" />
                                     </div>
                                 </div>
                             </div>
@@ -138,56 +139,41 @@
                                 <thead>
                                     <tr>
                                         <th class="w-1">No.</th>
-                                        <th>Nama</th>
+                                        <th>Nama Website</th>
                                         <th>Url Website</th>
-                                        <th>Token</th>
-                                        <th>Role</th>
-                                      
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php
-                                        $startNumber = 1;
+                                        /** @var \Illuminate\Pagination\LengthAwarePaginator $websites */
+                                        $startNumber = ($websites->currentPage() - 1) * $websites->perPage() + 1;
                                     @endphp
-                                    @forelse($websites as $i => $product)
+                                    @forelse($websites as $i => $website)
                                         <tr>
                                             <td>{{ $startNumber + $i }}</td>
-                                            <td>{{ $product['name'] }}</td>
+                                            <td>{{ $website->nama_web }}</td>
                                             <td>
-                                                <a href="https://wa.me/{{ $product['whatsapp'] }}" target="_blank" class="text-decoration-none">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-whatsapp text-success" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                        <path d="M3 21l1.65 -4.3a9 9 0 1 1 3.4 3.4l-4.3 1.65" />
-                                                        <path d="M8 16l-1.5 -2a6 6 0 0 1 8.5 -8.5l2 1.5" />
-                                                        <path d="M16 8l2 1.5" />
-                                                    </svg>
-                                                    {{ $product['whatsapp'] }}
+                                                <a href="{{ $website->url }}" 
+                                                    target="_blank"
+                                                    rel="noopener"
+                                                    class="text-decoration-none"
+                                                >
+                                                    {{ $website->url }}
                                                 </a>
                                             </td>
-                                            <td>{{ $product['email'] }}</td>
-                                            <td>{{ $product['role'] }}</td>
-                                            @if($product['role'] !== 'admin')
-                                              <td>
-                                                    {{ $product['websites_count'] }}
-                                              </td>
-                                            @endif
                                             <td>
                                                 <span class="dropdown">
                                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-start">
-                                                     
-                                                        <a class="dropdown-item" href="{{ url('/admin/websites/edit/' . $product['id']) }}">Edit</a>
-                                                        <form method="POST" action="/admin/websites/delete/{{ $product['id'] }}" class="d-inline delete-product-form">
+                                                        <a class="dropdown-item" href="#">Edit</a>
+                                                        <form method="POST" action="#" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button 
-                                                                type="submit" 
-                                                                class="dropdown-item text-danger btn-delete-product" 
-                                                                onclick="event.preventDefault(); if(confirm('Apakah Anda yakin ingin menghapus product ini?')) { this.closest('form').submit(); }"
-                                                                >
+                                                            <button type="submit" class="dropdown-item text-danger" 
+                                                                onclick="event.preventDefault(); if(confirm('Apakah Anda yakin ingin menghapus website ini?')) { this.closest('form').submit(); }">
                                                                 Hapus
                                                             </button>
                                                         </form>
@@ -197,84 +183,70 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center text-secondary">Belum ada product.</td>
+                                            <td colspan="4" class="text-center text-secondary">Belum ada website.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
                         <div class="card-footer">
-                            <div class="row g-2 justify-content-center justify-content-sm-between">
+                            <div class="row g-2 align-items-center justify-content-center justify-content-sm-between">
                                 <div class="col-auto d-flex align-items-center">
-                                    <p class="m-0 text-secondary">
-                                        Showing 
-                                        <strong>1</strong>
-                                        to 
-                                        <strong>{{ count($websites) }}</strong>
-                                        of 
-                                        <strong>{{ count($websites) }} entries</strong>
+                                    <p class="m-0 text-secondary small">
+                                        Menampilkan
+                                        <span class="fw-semibold">{{ $websites->firstItem() ?? 0 }}</span>
+                                        -
+                                        <span class="fw-semibold">{{ $websites->lastItem() ?? 0 }}</span>
+                                        dari
+                                        <span class="fw-semibold">{{ $websites->total() }}</span> 
+                                        entri
                                     </p>
                                 </div>
                                 <div class="col-auto">
-                                    <!-- DUMMY PAGINATION (sementara dummy) -->
-                                    <ul class="pagination m-0 ms-auto">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    aria-hidden="true"
-                                                    focusable="false"
-                                                    class="icon icon-1"
-                                                >
-                                                    <path d="M15 6l-6 6l6 6" />
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">4</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">5</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    aria-hidden="true"
-                                                    focusable="false"
-                                                    class="icon icon-1"
-                                                >
-                                                    <path d="M9 6l6 6l-6 6" />
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <!-- END DUMMY PAGINATION -->
+                                    <nav aria-label="Paginasi daftar website">
+                                        <ul class="pagination mb-0 justify-content-center">
+                                            {{-- Previous Button --}}
+                                            <li class="page-item {{ $websites->onFirstPage() ? 'disabled' : '' }}">
+                                                <a class="page-link" href="{{ $websites->onFirstPage() ? '#' : $websites->url($websites->currentPage() - 1) . (request()->has('per_page') ? '&per_page=' . request('per_page') : '') }}" tabindex="-1" aria-disabled="{{ $websites->onFirstPage() ? 'true' : 'false' }}">
+                                                    &laquo;
+                                                </a>
+                                            </li>
+
+                                            {{-- First page and leading dots --}}
+                                            @if ($websites->currentPage() > 3)
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{ $websites->url(1) }}{{ request()->has('per_page') ? '&per_page='.request('per_page') : '' }}">1</a>
+                                                </li>
+                                                @if ($websites->currentPage() > 4)
+                                                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                                                @endif
+                                            @endif
+
+                                            {{-- Range of page links --}}
+                                            @for ($page = max(1, $websites->currentPage() - 2); $page <= min($websites->lastPage(), $websites->currentPage() + 2); $page++)
+                                                <li class="page-item {{ $websites->currentPage() == $page ? 'active' : '' }}">
+                                                    <a class="page-link" href="{{ $websites->url($page) }}{{ request()->has('per_page') ? '&per_page='.request('per_page') : '' }}">{{ $page }}</a>
+                                                </li>
+                                            @endfor
+
+                                            {{-- Trailing dots and last page --}}
+                                            @if ($websites->currentPage() < $websites->lastPage() - 2)
+                                                @if ($websites->currentPage() < $websites->lastPage() - 3)
+                                                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                                                @endif
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{ $websites->url($websites->lastPage()) }}{{ request()->has('per_page') ? '&per_page='.request('per_page') : '' }}">{{ $websites->lastPage() }}</a>
+                                                </li>
+                                            @endif
+
+                                            {{-- Next Button --}}
+                                            <li class="page-item {{ $websites->currentPage() == $websites->lastPage() ? 'disabled' : '' }}">
+                                                <a class="page-link" href="{{ $websites->currentPage() == $websites->lastPage() ? '#' : $websites->url($websites->currentPage() + 1) . (request()->has('per_page') ? '&per_page=' . request('per_page') : '') }}" aria-disabled="{{ $websites->currentPage() == $websites->lastPage() ? 'true' : 'false' }}">
+                                                    &raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>

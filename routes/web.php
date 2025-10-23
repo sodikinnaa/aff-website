@@ -3,13 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Settings\WesiteController;
 use App\Http\Controllers\Auth\AuthController;
-
+use App\Http\Controllers\Admin\Settings\WebsiteController;
 Route::get('/', function () {
     return view('welcome');
 });
 
 // auth start to code 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->middleware('auth.login')->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::get('/register', function(){
     return view('auth/register');
@@ -19,6 +19,7 @@ Route::post('/register', function(){
 })->name('register.submit');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // end auth code 
 
 // admin dashboard 
@@ -26,10 +27,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('admin')->middleware('role:admin')->group(function () {
     // start create logick 
     Route::prefix('setting')->group(function(){
-        Route::get('/website', [WesiteController::class, 'index'])->name('admin.website');
-        Route::get('/website/add', function(){
-            return view('admin.website.form', ['title'=>'Tambah website', 'websites'=>[]]);
-        })->name('admin.website.store');
+        Route::prefix('website')->group(function() {
+            Route::get('/', [WebsiteController::class, 'index'])->name('admin.website');
+            Route::get('/add', [WebsiteController::class, 'showAdd'])->name('admin.website.store');
+        });
     });
 
     // end settings route
@@ -73,7 +74,7 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::get('/', function(){
             return view('admin.products.index', ['title'=>'Daftar Product', 'products'=>[]]);
         })->name('admin.products');
-        Route::get('/{slug_produk}', function($slug_produk){
+        Route::get('/{id}', function($id){
             // disini slug_produk sudah bisa digunakan jika ingin detail produk
             return view('admin.products.detail', ['title'=>'Detail Product', 'userCourses'=>[]]);
         })->name('admin.products.detail');
