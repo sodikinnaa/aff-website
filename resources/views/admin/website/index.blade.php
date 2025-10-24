@@ -202,23 +202,16 @@
                                                 </form>
                                             </td>
                                             <td>
-                                                <span class="dropdown">
-                                                    <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">
-                                                        Aksi
+                                                <a class="btn btn-info btn-sm mb-1" href="{{ route('admin.website.detail', ['id' => $website->id]) }}">Detail</a>
+                                                <a class="btn btn-warning btn-sm mb-1" href="{{ route('admin.website.edit', ['id' => $website->id]) }}">Edit</a>
+                                                <form method="POST" action="{{ route('website.delete', ['id' => $website->id]) }}" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm mb-1"
+                                                        onclick="event.preventDefault(); if(confirm('Apakah Anda yakin ingin menghapus website ini?')) { this.closest('form').submit(); }">
+                                                        Hapus
                                                     </button>
-                                                    <div class="dropdown-menu dropdown-menu-start">
-                                                        <a class="dropdown-item" href="{{ route('admin.website.detail', ['id' => $website->id]) }}">Detail</a>
-                                                        <a class="dropdown-item" href="{{ route('admin.website.edit', ['id' => $website->id]) }}">Edit</a>
-                                                        <form method="POST" action="{{ route('website.delete', ['id' => $website->id]) }}" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="dropdown-item text-danger" 
-                                                                onclick="event.preventDefault(); if(confirm('Apakah Anda yakin ingin menghapus website ini?')) { this.closest('form').submit(); }">
-                                                                Hapus
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </span>
+                                                </form>
                                             </td>
                                         
                                         </tr>

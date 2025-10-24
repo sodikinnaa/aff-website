@@ -29,9 +29,9 @@
     <!-- BEGIN CUSTOM FONT -->
     <style>
       @import url("https://rsms.me/inter/inter.css");
-      .table-responsive {
+      /* .table-responsive {
         overflow: visible !important;
-      }
+      } */
     </style>
     <!-- END CUSTOM FONT -->
     
@@ -72,24 +72,7 @@
             </div>
             <!-- END NAVBAR LOGO -->
 
-            <div class="navbar-nav flex-row d-lg-none">
-            <!-- User Dropdown (Mobile) -->
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link d-flex lh-1 p-0 px-2" data-bs-toggle="dropdown" aria-label="Open user menu">
-                <span class="avatar avatar-sm" style="background-image: url(/templates/static/avatars/000m.jpg)"> </span>
-                <div class="d-none d-xl-block ps-2">
-                    <div>Admin</div>
-                    <div class="mt-1 small text-secondary">Administrator</div>
-                </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <a href="#" class="dropdown-item">Profile</a>
-                <a href="#" class="dropdown-item">Settings</a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                </div>
-            </div>
-            </div>
+            
 
             <div class="collapse navbar-collapse" id="sidebar-menu">
             <!-- BEGIN NAVBAR MENU -->
@@ -156,15 +139,15 @@
                     <!-- Box Icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/></svg>
                     </span>
-                    <span class="nav-link-title">Produk & Lisensi</span>
+                    <span class="nav-link-title">Produk </span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item {{ request()->is('admin/products/siapberkarir*') ? 'active' : '' }}" href="{{ route('admin.products.detail', ['id' => 'siap-berkarir']) }}">
+                    <a class="dropdown-item {{ request()->is('admin/products/siapberkarir*') ? 'active' : '' }}" href="{{ route('admin.website.list') }}">
                     <span class="me-2">
                         <!-- Book Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 7H20"/><path d="M20 22V2"/><path d="M4 22V2"/></svg>
                     </span>
-                    Siap Berkarir
+                    Daftar Website Aktiv
                     </a>
                     
                 </div>
@@ -195,7 +178,7 @@
                                 <path d="M12 2a15.3 15.3 0 0 0 0 20"/>
                             </svg>
                         </span>
-                        Daftar Website
+                        Daftar Website Saya
                         </a>
                         <a class="dropdown-item {{ request()->is('admin/webhooks/targets*') ? 'active' : '' }}" href="/admin/webhooks/targets/show">
                         <span class="me-2">

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Settings\WesiteController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\Settings\WebsiteController;
+use App\Http\Controllers\Admin\Settings\TokenController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,22 +23,32 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // end auth code 
 
-// admin dashboard 
 // Admin dashboard routes
 Route::prefix('admin')->middleware('role:admin')->group(function () {
     // start create logick 
     Route::prefix('setting')->group(function(){
         Route::prefix('website')->group(function() {
             Route::get('/', [WebsiteController::class, 'index'])->name('admin.website');
-            Route::get('/add', [WebsiteController::class, 'showAdd'])->name('admin.website.store');
+            // list webstite
+            Route::get('/produk/sync/{id}', [WebsiteController::class, 'syncProduk'])->name('admin.website.produk.sync');
+            Route::get('/list-website', [WebsiteController::class, 'listWebsite'])->name('admin.website.list');
+            Route::get('/produk/{id}', [WebsiteController::class, 'listProduk'])->name('admin.website.list.detail');
+            Route::get('/produk/edit/{id}', [WebsiteController::class, 'editProduk'])->name('admin.website.produk.edit');
+            Route::delete('/produk/delete/{id}', [WebsiteController::class, 'deleteProduk'])->name('admin.website.produk.delete');
+            // end website
             Route::get('/{id}', [WebsiteController::class, 'detail'])->name('admin.website.detail');
+            Route::get('/add', [WebsiteController::class, 'showAdd'])->name('admin.website.store');
             Route::post('/',  [WebsiteController::class, 'store'])->name('website.add');
             Route::put('/',  [WebsiteController::class, 'update'])->name('website.edit');
             Route::delete('/{id}',  [WebsiteController::class, 'destroy'])->name('website.delete');
             Route::get('/edit/{id}', [WebsiteController::class, 'showEdit'])->name('admin.website.edit');
 
             // new route for sync to source
-            Route::post('/check-activation', [WebsiteController::class, 'checkActivation'])->name('admin.website.check_activation');
+            Route::post('/check-activation', [TokenController::class, 'checkActivation'])->name('admin.website.check_activation');
+            Route::delete('/token/{id}', [TokenController::class, 'destroyToken'])->name('admin.token.delete');
+            Route::post('/token/generate', [TokenController::class, 'generateToken'])->name('admin.token.generate');
+            
+
         });
     });
 

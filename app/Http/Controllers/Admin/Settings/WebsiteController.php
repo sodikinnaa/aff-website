@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\WebsiteModel;
 use App\Services\WebsiteService;
+use App\Models\Admin\Settings\ProdukWebsiteModel;
+use App\Http\Services\WebsiteSyncService;
+use App\Models\Admin\Settings\TokenModel;
 
 class WebsiteController extends Controller
 {
@@ -14,6 +17,7 @@ class WebsiteController extends Controller
     public function __construct(WebsiteService $websiteService)
     {
         $this->websiteService = $websiteService;
+        $this->syncWebsite = new WebsiteSyncService();
     }
 
     public function index(Request $request){
@@ -30,10 +34,66 @@ class WebsiteController extends Controller
         return view('admin.website.form', ['title'=>'Tambah website']);
     }
 
-    public function checkActivation(Request $request)
-    {
-        return 'activasi logic';
+    // list website produk 
+
+    public function listWebsite(){
+        // Ambil semua website yang berstatus aktif
+        $websites = WebsiteModel::where('status', 'active')->get();
+        // dd($websites);
+        return view('admin/website/website_list', ['websites'=>$websites]);
     }
+
+    public function listProduk($id)
+    {
+        // Ambil detail website berdasarkan id
+        $website = WebsiteModel::findOrFail($id);
+
+        // Ambil daftar produk berdasarkan website_id
+        $produkList = ProdukWebsiteModel::where('website_id', $id)->get();
+        return view('admin.website.produk_list', [
+            'website' => $website,
+            'produkList' => $produkList,
+            'title' => 'Detail Produk Website'
+        ]);
+    }
+
+    public function syncProduk($websiteId){
+        // Ambil website berdasarkan ID
+        $website = WebsiteModel::where('id', $websiteId)->first();
+        // Dapatkan token untuk website ini menggunakan service
+        $token = TokenModel::where('website_id', $websiteId)->value('token');
+        if($website->status != 'active' || empty($token)){
+            return redirect()->back()->with('error', $website->status != 'active' ? 'Website tidak aktif atau status tidak valid.' : 'Token Tidak ditemukan.');
+        }
+        
+        $produkList = $this->syncWebsite->getProduct($token, $website->url);
+        if (is_array($produkList)) {
+            foreach ($produkList as $produk) {
+                // Cek bahwa source_id ada dan tidak null (wajib)
+                // updateOrCreate berdasarkan url dan source_id (pastikan keduanya dipakai sebagai "unik")
+                ProdukWebsiteModel::updateOrCreate(
+                    [
+                        'url' => $produk['url'] ?? null,
+                        'source_id' => $produk['id'], // wajib tidak null
+                    ],
+                    [
+                        'website_id'    => $websiteId,
+                        'nama_produk'   => $produk['name'] ?? null,
+                        'price'         => $produk['price'] ?? null,
+                        'img_url'       => $produk['image'] ?? null,
+                        // Tambahkan field lain sesuai kebutuhan dan struktur $produk
+                    ]
+                );
+            }
+        }
+
+        return redirect()->back()->with('success', 'Produk berhasil disinkronkan dari website.');
+        return 'sync loginc';
+    }
+
+    // end website produk 
+
+    
 
     public function showEdit($id){
         $website = WebsiteModel::findOrFail($id);
