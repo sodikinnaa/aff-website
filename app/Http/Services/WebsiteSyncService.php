@@ -13,21 +13,25 @@ class WebsiteSyncService
         $endpoint = rtrim($endpoint, '/');
         $url = $endpoint . '/api/v1/verifikasi';
 
-        // Make HTTP request with Authorization Bearer token
-        $token = 'Bearer ' . $token;
-        $response = Http::withHeaders([
-            'Authorization' => $token,
-        ])->get($url);
+        // Make HTTP request with Authorization Bearer token, handle possible connection exceptions
+        $tokenHeader = 'Bearer ' . $token;
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => $tokenHeader,
+                ])->get($url);
+            } catch (\Illuminate\Http\Client\ConnectionException $e) {
+                // Handle connection exception, e.g. return false or log the error
+                return false;
+            }
 
         // Jika responya lebih dari 200 maka returnkan false
         if ($response->status() > 200) {
             return false;
         }
         $jsonData = $response->json();
-        if ($jsonData['authorization'] != $token) {
+        if ($jsonData['authorization'] != $tokenHeader) {
             return false;
         }   
-
         return $response->json();
     }
 

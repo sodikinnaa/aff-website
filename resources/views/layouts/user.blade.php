@@ -148,13 +148,13 @@
     </header>
 
     <!-- Page Content -->
-    <main class="content">
+    @yield('content')
+    <!-- <main class="content">
         <div class="content-container">
             <h1>Responsive Navbar System</h1>
             <p>On large screens, you'll see a standard navigation bar at the top. On small screens, it disappears and is replaced by an app-style tab bar at the bottom.</p>
         </div>
-    </main>
-    
+    </main> -->
     <!-- Mobile Bottom Tab Bar - only visible on small screens -->
     <nav class="mobile-tab-nav" aria-label="Main mobile navigation">
         <a href="#" class="tab-link is-active" aria-current="page">

@@ -108,7 +108,7 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 // User dashboard routes
 Route::prefix('user')->middleware('role:affiliator')->group(function () {
     Route::get('/dashboard', function() {
-        return 'User Dashboard';
+        return view('user/index');
     })->name('user.dashboard');
     Route::get('/profile', function() {
         return 'User Profile';
