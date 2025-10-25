@@ -22,6 +22,10 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::get('/register', function(){
     return view('auth/register');
 });
+
+
+
+
 Route::post('/register', function(){
     return view('auth/register');
 })->name('register.submit');
@@ -112,8 +116,11 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     
 });
 
+
+use App\Http\Controllers\user\ProdukController;
 // User dashboard routes
 Route::prefix('user')->middleware('role:affiliator')->group(function () {
+    Route::get('/produk/{id_web}', [ProdukController::class, 'index'])->name('user.website.produk');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
     Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile');
     Route::prefix('withdraw')->group(function () {
@@ -121,6 +128,7 @@ Route::prefix('user')->middleware('role:affiliator')->group(function () {
         Route::get('/history', [WithdrawController::class, 'history'])->name('user.withdraw.history');
         Route::get('/form', [WithdrawController::class, 'form'])->name('user.withdraw.form');
     });
+    Route::get('/my-produk', [ProdukController::class, 'myProduk'])->name('user.website.myproduk');
     Route::get('/referal', [ReferalConntroller::class, 'index'])->name('user.referal');
 });
 

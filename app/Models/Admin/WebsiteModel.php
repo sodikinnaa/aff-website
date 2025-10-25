@@ -22,6 +22,11 @@ class WebsiteModel extends Model
         return $this->hasMany(\App\Models\Admin\Settings\ProdukWebsiteModel::class, 'website_id', 'id')->limit(4);
     }
 
+    public function allProducts(): HasMany
+    {
+        return $this->hasMany(\App\Models\Admin\Settings\ProdukWebsiteModel::class, 'website_id', 'id');
+    }
+
     /**
      * Tokens related to this website.
      */

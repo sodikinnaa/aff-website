@@ -31,6 +31,18 @@
             <section class="produk-section" style="margin-bottom: 1.6rem;">
                 <div class="produk-section-header">
                     <h2>Performa Anda </h2>
+                    <a href="#" style="
+                            font-size: 0.94rem;
+                            padding: 5px 15px;
+                            color: #0ea5e9;
+                            background: #e0f2fe;
+                            border-radius: 7px;
+                            font-weight: 500;
+                            text-decoration: none;
+                            transition: background .15s;
+                        " onmouseover="this.style.background='#bae6fd';" onmouseout="this.style.background='#e0f2fe';">
+                            Selengkapnya &rsaquo;
+                        </a>
                 </div>
                 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                     <!-- visitor  -->
@@ -60,7 +72,7 @@
                 <section class="produk-section">
                     <div class="produk-section-header">
                         <h2>Produk {{ $website->nama_web }} 💰</h2>
-                        <a href="#" style="
+                        <a href="{{ route('user.website.produk', ['id_web' => $website->id]) }}" style="
                             font-size: 0.94rem;
                             padding: 5px 15px;
                             color: #0ea5e9;

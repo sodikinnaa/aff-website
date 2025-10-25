@@ -310,16 +310,26 @@
             <svg class="tab-link__icon" viewBox="0 0 24 24"><path fill="currentColor" d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" /></svg>
             <span>Beranda</span>
         </a>
-        <a href="{{ route('user.referal') }}"
+        <!-- <a href="{{ route('user.referal') }}"
            class="tab-link{{ request()->routeIs('user.referal') ? ' is-active' : '' }}"
            @if(request()->routeIs('user.referal')) aria-current="page" @endif>
-            <!-- Referral (Fereal) Icon -->
             <svg class="tab-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
                 <path d="M16 6l-4-3-4 3" />
                 <path d="M12 3v11" />
             </svg>
             <span>Referal</span>
+        </a> -->
+        <a href="{{ route('user.website.myproduk') }}"
+           class="tab-link{{ request()->routeIs('user.website.myproduk') ? ' is-active' : '' }}"
+           @if(request()->routeIs('user.website.myproduk')) aria-current="page" @endif>
+            <!-- MyProduk Icon -->
+            <svg class="tab-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3.5" y="7" width="17" height="10" rx="2.5"/>
+                <path d="M7 7V5.5A2.5 2.5 0 0 1 9.5 3h5A2.5 2.5 0 0 1 17 5.5V7"/>
+                <circle cx="12" cy="12" r="2.2"/>
+            </svg>
+            <span>My Produk</span>
         </a>
         <a href="{{ route('user.withdraw') }}"
            class="tab-link{{ request()->routeIs('user.withdraw') ? ' is-active' : '' }}"
