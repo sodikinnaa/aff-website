@@ -19,7 +19,7 @@ class WebsiteModel extends Model
      */
     public function products(): HasMany
     {
-        return $this->hasMany(\App\Models\Product::class, 'website_id', 'id');
+        return $this->hasMany(\App\Models\Admin\Settings\ProdukWebsiteModel::class, 'website_id', 'id')->limit(4);
     }
 
     /**
@@ -29,4 +29,5 @@ class WebsiteModel extends Model
     {
         return $this->hasMany(\App\Models\Admin\TokenWebsiteModel::class, 'website_id', 'id');
     }
+
 }

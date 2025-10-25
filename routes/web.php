@@ -5,6 +5,13 @@ use App\Http\Controllers\Admin\Settings\WesiteController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\Settings\WebsiteController;
 use App\Http\Controllers\Admin\Settings\TokenController;
+
+use App\Http\Controllers\user\HomeController;
+use App\Http\Controllers\user\ReferalConntroller;
+use App\Http\Controllers\user\ProfileController;
+use App\Http\Controllers\user\WithdrawController;
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -107,15 +114,14 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 
 // User dashboard routes
 Route::prefix('user')->middleware('role:affiliator')->group(function () {
-    Route::get('/dashboard', function() {
-        return view('user/index');
-    })->name('user.dashboard');
-    Route::get('/profile', function() {
-        return 'User Profile';
-    })->name('user.profile');
-    Route::get('/rewards', function() {
-        return 'User Rewards';
-    })->name('user.rewards');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile');
+    Route::prefix('withdraw')->group(function () {
+        Route::get('/', [WithdrawController::class, 'index'])->name('user.withdraw');
+        Route::get('/history', [WithdrawController::class, 'history'])->name('user.withdraw.history');
+        Route::get('/form', [WithdrawController::class, 'form'])->name('user.withdraw.form');
+    });
+    Route::get('/referal', [ReferalConntroller::class, 'index'])->name('user.referal');
 });
 
 // mitra dashboard 
